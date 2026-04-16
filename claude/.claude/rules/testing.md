@@ -74,6 +74,17 @@ Do not aim for coverage percentage targets. Aim for confidence in the behaviours
 
 Skip test simplification on lockfiles (`package-lock.json`, `Podfile.lock`, `poetry.lock`, `Package.resolved`, etc.) and generated files. Do not write tests for generated output.
 
+## Goal-Driven Execution
+
+Transform vague tasks into verifiable goals before starting. For multi-step tasks, emit a plan:
+
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+```
+
+Strong success criteria enable autonomous looping and make "done" unambiguous.
+
 ## When to Skip TDD
 
 TDD is the default. Skip it only for:
