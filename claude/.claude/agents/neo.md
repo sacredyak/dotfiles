@@ -15,7 +15,6 @@ tools:
   - Glob
   - Grep
   - Read
-  - Bash
 ---
 
 # Neo — Main Orchestrator

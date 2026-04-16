@@ -42,8 +42,7 @@
       "mcp__plugin_context-mode_context-mode__ctx_index",
       "mcp__plugin_context-mode_context-mode__ctx_stats",
       "mcp__plugin_context7_context7__resolve-library-id",
-      "mcp__plugin_context7_context7__query-docs",
-      "mcp__sequential-thinking__sequentialthinking"
+      "mcp__plugin_context7_context7__query-docs"
     ],
     "deny": [
       "Read(**/.env*)",
@@ -127,8 +126,20 @@
         ]
       }
     ],
+    "WorktreeCreate": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/worktree-create.sh\"",
+            "statusMessage": "Creating worktree and copying .env files..."
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
@@ -163,6 +174,16 @@
             "type": "command",
             "command": "bash \"$HOME/.claude/hooks/superpowers-redirect.sh\"",
             "statusMessage": "Checking superpowers doc routing..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(git commit:*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/pre-commit-reminder.sh",
+            "statusMessage": "Checking pre-commit reminder..."
           }
         ]
       }
