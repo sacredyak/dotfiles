@@ -29,8 +29,38 @@ echo "$LOG_PREFIX worktree dir=$WORKTREE_DIR" >&2
 # Create parent directory if needed
 mkdir -p "$(dirname "$WORKTREE_DIR")"
 
-# Create the worktree branching from origin/HEAD
-git -C "$REPO_ROOT" worktree add "$WORKTREE_DIR" -b "$NAME" "origin/HEAD" 2>&1 | while IFS= read -r line; do
+# Detect default branch, with fallbacks if origin/HEAD is not set
+DEFAULT_BRANCH=""
+
+# Try: git remote show origin to detect the default branch
+if command -v git &> /dev/null; then
+  DEFAULT_BRANCH=$(git -C "$REPO_ROOT" remote show origin 2>/dev/null | grep "HEAD branch" | awk '{print $NF}' || true)
+  if [ -z "$DEFAULT_BRANCH" ]; then
+    # Fallback 1: try origin/main
+    if git -C "$REPO_ROOT" rev-parse --verify "origin/main" &>/dev/null; then
+      DEFAULT_BRANCH="origin/main"
+    # Fallback 2: try origin/master
+    elif git -C "$REPO_ROOT" rev-parse --verify "origin/master" &>/dev/null; then
+      DEFAULT_BRANCH="origin/master"
+    else
+      # Fallback 3: use current HEAD (no remote base)
+      DEFAULT_BRANCH="HEAD"
+    fi
+  else
+    # git remote show returns the branch name without origin/ prefix; add it
+    DEFAULT_BRANCH="origin/$DEFAULT_BRANCH"
+  fi
+fi
+
+if [ -z "$DEFAULT_BRANCH" ]; then
+  echo "$LOG_PREFIX ERROR: Could not detect default branch" >&2
+  exit 1
+fi
+
+echo "$LOG_PREFIX default branch=$DEFAULT_BRANCH" >&2
+
+# Create the worktree branching from the detected default branch
+git -C "$REPO_ROOT" worktree add "$WORKTREE_DIR" -b "$NAME" "$DEFAULT_BRANCH" 2>&1 | while IFS= read -r line; do
   echo "$LOG_PREFIX git: $line" >&2
 done
 
