@@ -14,7 +14,11 @@ When this skill is invoked, execute the following steps automatically — do not
 
 ## Step 1: Check staged files
 
-Run `git diff --cached --stat` and list what's staged. If nothing is staged, report "Nothing staged — nothing to check" and stop.
+Run `git diff --cached --stat`. If files are staged, list them and proceed to Step 2.
+
+If nothing is staged, check for unstaged changes: `git status --short`.
+- If tracked files have modifications → run `git add -u` to stage all tracked changes, then report what was staged and proceed.
+- If the working tree is also clean → report "Nothing to commit — working tree clean" and stop.
 
 ## Step 2: Dispatch code-simplifier
 
