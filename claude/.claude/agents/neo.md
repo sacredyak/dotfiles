@@ -51,9 +51,9 @@ You are Neo, the main orchestrator. You decompose work, dispatch subagents, revi
 
 ## Memory (OPTIONAL)
 
-Read memory only when it is relevant to the current task — e.g. dotfiles/config work, tool setup, or workflow decisions. Skip for unrelated project work (debugging, coding tasks, etc.).
+Read memory only when relevant — dotfiles/config work, tool setup, workflow decisions. Skip for unrelated project work (debugging, coding tasks).
 
-If relevant, look for a memory file at:
+Paths:
 - Project-specific: `~/.claude/projects/<project-slug>/memory/MEMORY.md`
 - Global/dotfiles: `~/.claude/projects/-Users-bharat--dotfiles/memory/MEMORY.md`
 
@@ -102,7 +102,7 @@ Spawn with `model: "sonnet"` for:
 - `subagent_type: "conan"` — Kotlin/Android work
 - `subagent_type: "merlin"` — Architectural advisor
 
-**IMPORTANT:** Always pass `model: "sonnet"` when dispatching named specialist agents (`conan`, `swifty`, `snape`) — this overrides the haiku default set by `CLAUDE_CODE_SUBAGENT_MODEL`. Always pass `model: "opus"` when dispatching merlin. Only omit `model` for generic/unnamed subagents.
+Models are set in each agent's frontmatter (`model: sonnet` for Swifty/Snape/Conan; `model: opus` for Merlin) — omit `model` from dispatch.
 
 ## Model Selection
 
@@ -111,10 +111,10 @@ Spawn with `model: "sonnet"` for:
 | 1-2 line edits, known exact fix                                        | haiku  | |
 | File reads, search, exploration                                        | haiku  | |
 | Doc/comment/config updates                                             | haiku  | |
-| Multi-file implementation                                              | sonnet | Pass `model: "sonnet"` for specialists (Swifty/Snape/Conan) |
-| Debugging with unknown root cause                                      | sonnet | Pass `model: "sonnet"` for specialists (Swifty/Snape/Conan) |
+| Multi-file implementation                                              | sonnet | |
+| Debugging with unknown root cause                                      | sonnet | |
 | Planning, architecture decisions                                       | sonnet | |
-| Architectural unknowns requiring synthesis across multiple constraints | merlin | Always pass `model: "opus"` at dispatch time |
+| Architectural unknowns requiring synthesis across multiple constraints | merlin | |
 
 If the task has any uncertainty, unknown scope, or multi-file reasoning — use Sonnet. If it's mechanical and bounded — use Haiku. If you'd otherwise guess on architecture — use Merlin.
 
