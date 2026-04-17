@@ -99,7 +99,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/cleanup-worktrees.sh\"",
+            "command": "$HOME/.claude/hooks/cleanup-worktrees.sh",
             "statusMessage": "Cleaning up merged worktrees..."
           }
         ]
@@ -130,23 +130,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/worktree-create.sh\"",
+            "command": "$HOME/.claude/hooks/worktree-create.sh",
             "statusMessage": "Creating worktree and copying .env files..."
           }
         ]
       }
     ],
     "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ~/.claude/hooks/auto-mode.sh",
-            "statusMessage": "Checking auto-mode..."
-          }
-        ]
-      },
       {
         "matcher": "Bash",
         "hooks": [
@@ -171,7 +161,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/superpowers-redirect.sh\"",
+            "command": "$HOME/.claude/hooks/superpowers-redirect.sh",
             "statusMessage": "Checking superpowers doc routing..."
           }
         ]
@@ -230,19 +220,22 @@
       "source": {
         "source": "github",
         "repo": "mksglu/context-mode"
-      }
+      },
+      "autoUpdate": true
     },
     "caveman": {
       "source": {
         "source": "github",
         "repo": "JuliusBrussee/caveman"
-      }
+      },
+      "autoUpdate": true
     },
     "thedotmack": {
       "source": {
         "source": "github",
         "repo": "thedotmack/claude-mem"
-      }
+      },
+      "autoUpdate": true
     }
   },
   "effortLevel": "high",
