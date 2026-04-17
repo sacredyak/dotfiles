@@ -3,45 +3,50 @@ name: pre-commit
 description: Run before committing — simplify staged code, review it, fix issues, then run tests
 ---
 
-> ⚠️ **MANUAL SKILL** — Invoke explicitly before every `git commit`:
+> **MANUAL SKILL** — Invoke explicitly before every `git commit`:
 > - "run pre-commit"
 > - "pre-commit check"
 > - "check before committing"
 
 # Pre-Commit Workflow
 
-When this skill is invoked, execute the following steps automatically — do not ask the user to do them manually.
+When invoked, execute these steps automatically — never ask the user to run them manually.
 
 ## Step 1: Check staged files
 
-Run `git diff --cached --stat`. If files are staged, list them and proceed to Step 2.
+Run `git diff --cached --stat`.
 
-If nothing is staged, check for unstaged changes: `git status --short`.
-- If tracked files have modifications → run `git add -u` to stage all tracked changes, then report what was staged and proceed.
-- If the working tree is also clean → report "Nothing to commit — working tree clean" and stop.
+- If files are staged → list them and proceed to Step 2.
+- If nothing is staged → run `git status --short`:
+  - Tracked files modified → `git add -u`, report what was staged, proceed.
+  - Working tree clean → report "Nothing to commit — working tree clean" and stop.
 
-## Step 2: Dispatch code-simplifier
+## Step 2: Simplify staged code
 
-Dispatch `code-simplifier:code-simplifier` subagent on the staged files. Pass the list of staged file paths and instruct it to simplify and refine for quality.
+Dispatch the `code-simplifier:code-simplifier` subagent with the staged file paths. Instruct it to simplify and refine for quality.
 
-After it completes, re-stage any files it modified: `git add -u`
+After it completes, re-stage any modified files with `git add -u`.
 
-## Step 3: Dispatch code reviewer
+## Step 3: Review staged diff
 
-Dispatch `pr-review-toolkit:code-reviewer` on the staged diff (`git diff --cached`). Instruct it to check for correctness, style, and maintainability.
+Dispatch `pr-review-toolkit:code-reviewer` on the staged diff (`git diff --cached`). Instruct it to check correctness, style, and maintainability.
 
-If the reviewer returns **CRITICAL** or **IMPORTANT** issues → stop. Report the issues to the user and do NOT proceed to commit. Wait for fixes.
+If the reviewer returns **CRITICAL** or **IMPORTANT** issues → stop, report them, and wait for fixes. Do NOT commit.
 
 ## Step 4: Run project tests
 
 Detect and run the project test suite:
-- JavaScript/Node.js: `npm test`
-- Python: `pytest` or `python -m unittest`
-- Kotlin/Java: `./gradlew test`
-- Swift: `swift test`
-- If no test command detected: skip this step and note it
 
-If tests fail → stop. Report failures. Do NOT commit.
+| Stack | Command |
+|-------|---------|
+| JavaScript / Node.js | `npm test` |
+| Python | `pytest` (fallback: `python -m unittest`) |
+| Kotlin / Java | `./gradlew test` |
+| Swift | `swift test` |
+
+If no test command is detected, skip this step and note it in the final report.
+
+If tests fail → stop, report failures. Do NOT commit.
 
 ## Step 5: Commit
 
@@ -50,12 +55,15 @@ All checks passed. Report:
 - Reviewer verdict (Step 3)
 - Test results (Step 4)
 
-Generate a commit message from the staged diff following conventional commits format (type(scope): description). Show the message to the user, then commit immediately — do not ask the user for the commit message.
+Generate a commit message from the staged diff using conventional commits format (`type(scope): description`). Present it and ask: "Commit with this message? (yes/edit/cancel)". Then:
+- **yes** → commit.
+- **edit** → accept the user's revised message and commit.
+- **cancel** → stop without committing.
 
 ## Error handling
 
-Any step can fail. On failure:
-- Stop immediately
-- Report what failed and why
-- Return control to the user for fixes
-- Do NOT commit on partial success
+Any step may fail. On failure:
+- Stop immediately.
+- Report what failed and why.
+- Return control to the user for fixes.
+- Never commit on partial success.
