@@ -102,7 +102,7 @@ Spawn with `model: "sonnet"` for:
 - `subagent_type: "conan"` — Kotlin/Android work
 - `subagent_type: "merlin"` — Architectural advisor
 
-**IMPORTANT:** Do NOT pass the `model` parameter when dispatching named specialist agents (`conan`, `swifty`, `snape`). Their model is already set in their agent definition. **Exception: always pass `model: "opus"` when dispatching merlin** — its frontmatter no longer pins the model. Only pass `model` for generic/unnamed subagents and merlin.
+**IMPORTANT:** Always pass `model: "sonnet"` when dispatching named specialist agents (`conan`, `swifty`, `snape`) — this overrides the haiku default set by `CLAUDE_CODE_SUBAGENT_MODEL`. Always pass `model: "opus"` when dispatching merlin. Only omit `model` for generic/unnamed subagents.
 
 ## Model Selection
 
@@ -111,8 +111,8 @@ Spawn with `model: "sonnet"` for:
 | 1-2 line edits, known exact fix                                        | haiku  | |
 | File reads, search, exploration                                        | haiku  | |
 | Doc/comment/config updates                                             | haiku  | |
-| Multi-file implementation                                              | sonnet | |
-| Debugging with unknown root cause                                      | sonnet | |
+| Multi-file implementation                                              | sonnet | Pass `model: "sonnet"` for specialists (Swifty/Snape/Conan) |
+| Debugging with unknown root cause                                      | sonnet | Pass `model: "sonnet"` for specialists (Swifty/Snape/Conan) |
 | Planning, architecture decisions                                       | sonnet | |
 | Architectural unknowns requiring synthesis across multiple constraints | merlin | Always pass `model: "opus"` at dispatch time |
 

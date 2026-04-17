@@ -55,7 +55,7 @@
       "Write(**/migrations/**)",
       "Edit(**/migrations/**)"
     ],
-    "defaultMode": "bypassPermissions"
+    "defaultMode": "auto"
   },
   "hooks": {
     "SessionStart": [
@@ -214,32 +214,33 @@
       "source": {
         "source": "github",
         "repo": "anthropics/claude-plugins-official"
-      }
+      },
+      "autoUpdate": false
     },
     "context-mode": {
       "source": {
         "source": "github",
         "repo": "mksglu/context-mode"
       },
-      "autoUpdate": true
+      "autoUpdate": false
     },
     "caveman": {
       "source": {
         "source": "github",
         "repo": "JuliusBrussee/caveman"
       },
-      "autoUpdate": true
+      "autoUpdate": false
     },
     "thedotmack": {
       "source": {
         "source": "github",
         "repo": "thedotmack/claude-mem"
       },
-      "autoUpdate": true
+      "autoUpdate": false
     }
   },
   "effortLevel": "high",
   "agent": "neo",
   "autoMemoryEnabled": true,
-  "skipDangerousModePermissionPrompt": true
+  "skipAutoPermissionPrompt": true
 }

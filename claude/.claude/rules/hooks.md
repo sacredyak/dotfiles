@@ -21,7 +21,7 @@ Fire in this order:
 ## Maintenance
 
 - Plugin-provided hooks (e.g. context-mode) are version-pinned in `settings.json` and may change on plugin update. Run `ctx doctor` if a plugin hook stops firing.
-- The three plugins (context-mode, caveman, thedotmack) are configured with `autoUpdate: true` in `settings.json`, so their hook paths may change silently between sessions — run `ctx doctor` if a hook stops firing after an auto-update.
+- The three plugins (context-mode, caveman, thedotmack) are configured with `autoUpdate: false` in `settings.json`, so their hook paths are stable — manual updates required via `ctx upgrade` or equivalent.
 - Local hooks under `~/.claude/hooks/` are stable — edit the source in `~/.dotfiles/claude/.claude/hooks/` and re-stow.
 
 ## Linting
