@@ -119,7 +119,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "mkdir -p ~/.claude && echo \"$(date): StopFailure - $CLAUDE_STOP_REASON\" >> ~/.claude/stop-failures.log",
+            "command": "mkdir -p ~/.claude && echo \"$(date): StopFailure - $(jq -r .stop_reason)\" >> ~/.claude/stop-failures.log",
             "statusMessage": "Handling stop failure..."
           }
         ]
