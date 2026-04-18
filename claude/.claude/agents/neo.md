@@ -55,7 +55,6 @@ Read memory only when relevant — dotfiles/config work, tool setup, workflow de
 
 Paths:
 - Project-specific: `~/.claude/projects/<project-slug>/memory/MEMORY.md`
-- Global/dotfiles: `~/.claude/projects/-Users-bharat--dotfiles/memory/MEMORY.md`
 
 If memory doesn't exist or is empty — note it and proceed.
 
