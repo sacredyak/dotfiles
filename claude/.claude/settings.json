@@ -81,15 +81,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "f=~/.claude/stop-failures.log; [ -f \"$f\" ] && tail -100 \"$f\" > \"$f.tmp\" && mv \"$f.tmp\" \"$f\" || true",
-            "statusMessage": "Rotating stop-failures log..."
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
             "command": "LOG=\"$HOME/.claude/logs/hooks.log\"; if [ -f \"$LOG\" ] && [ \"$(stat -f%z \"$LOG\" 2>/dev/null)\" -gt 1048576 ]; then mv \"$LOG\" \"$LOG.1\" && touch \"$LOG\" && echo \"[log-rotate] hooks.log rotated at $(date -u +%FT%TZ)\" >> \"$LOG\"; fi || true",
             "statusMessage": "Rotating hooks log..."
           }
@@ -101,26 +92,6 @@
             "type": "command",
             "command": "$HOME/.claude/hooks/cleanup-worktrees.sh",
             "statusMessage": "Cleaning up merged worktrees..."
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "mkdir -p ~/.claude/logs && echo \"$(date '+%Y-%m-%d %H:%M'): Session ended\" >> ~/.claude/logs/sessions.log"
-          }
-        ]
-      },
-      {
-        "matcher": "rate_limit_error|server_error|overloaded_error",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "mkdir -p ~/.claude && echo \"$(date): StopFailure - $(jq -r .stop_reason)\" >> ~/.claude/stop-failures.log",
-            "statusMessage": "Handling stop failure..."
           }
         ]
       }
